@@ -33,7 +33,7 @@ export const Footer = () => (
     </div>
     <div className="border-t border-border/60">
       <p className="container mx-auto py-6 text-xs text-muted-foreground text-center">
-        © 2026 HIDN — Mengejar Nilai Mutu A · Karya Salemba Empat Juara 2026
+        © 2026 HIDN — Mengejar Nilai Mutu A 
       </p>
     </div>
   </footer>
