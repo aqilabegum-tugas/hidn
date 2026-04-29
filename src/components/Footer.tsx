@@ -25,8 +25,8 @@ export const Footer = () => (
       <div>
         <h4 className="font-display text-sm font-semibold mb-4">Kontak</h4>
         <ul className="space-y-2 text-sm text-muted-foreground">
-          <li>aqilabegum@apps.ipb.ac.id</li>
-          <li>+62 813 1453 9216</li>
+          <li>Technopreneurship for AI</li>
+          <li>Kelompok 16</li>
           <li>IPB University</li>
         </ul>
       </div>
