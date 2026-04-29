@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* HIDN Design System
+   Theme: Modern Indonesian travel — natural greens, warm earth, soft cream
+   All colors HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 39 38% 97%;
+    --foreground: 158 35% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 158 35% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 158 35% 12%;
+
+    --primary: 158 64% 22%;
+    --primary-foreground: 39 38% 97%;
+    --primary-glow: 158 55% 38%;
+
+    --secondary: 39 50% 92%;
+    --secondary-foreground: 158 35% 18%;
+
+    --muted: 39 30% 94%;
+    --muted-foreground: 158 12% 38%;
+
+    --accent: 28 80% 58%;
+    --accent-foreground: 39 38% 97%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 39 38% 97%;
+
+    --border: 39 25% 87%;
+    --input: 39 25% 87%;
+    --ring: 158 64% 22%;
+
+    --radius: 0.875rem;
+
+    --gradient-hero: linear-gradient(135deg, hsl(158 64% 22%) 0%, hsl(158 55% 38%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(28 80% 58%) 0%, hsl(15 75% 55%) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(39 38% 97%) 0%, hsl(39 50% 92%) 100%);
+    --gradient-overlay: linear-gradient(180deg, transparent 0%, hsl(158 35% 12% / 0.85) 100%);
+
+    --shadow-soft: 0 4px 20px -8px hsl(158 35% 12% / 0.1);
+    --shadow-elegant: 0 20px 60px -20px hsl(158 64% 22% / 0.25);
+    --shadow-glow: 0 0 40px hsl(158 55% 38% / 0.3);
+
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 158 35% 8%;
+    --foreground: 39 38% 95%;
+    --card: 158 30% 11%;
+    --card-foreground: 39 38% 95%;
+    --popover: 158 30% 11%;
+    --popover-foreground: 39 38% 95%;
+    --primary: 158 55% 48%;
+    --primary-foreground: 158 35% 8%;
+    --primary-glow: 158 55% 58%;
+    --secondary: 158 25% 18%;
+    --secondary-foreground: 39 38% 95%;
+    --muted: 158 20% 16%;
+    --muted-foreground: 39 15% 65%;
+    --accent: 28 80% 58%;
+    --accent-foreground: 158 35% 8%;
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 39 38% 95%;
+    --border: 158 25% 20%;
+    --input: 158 25% 20%;
+    --ring: 158 55% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer utilities {
+  .gradient-hero { background: var(--gradient-hero); }
+  .gradient-warm { background: var(--gradient-warm); }
+  .gradient-soft { background: var(--gradient-soft); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .transition-smooth { transition: var(--transition-smooth); }
+  .text-balance { text-wrap: balance; }
+}

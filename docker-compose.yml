@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hidn-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hidn
+      POSTGRES_PASSWORD: hidn123
+      POSTGRES_DB: hidn_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - hidn_pgdata:/var/lib/postgresql/data
+      - ./backend/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./backend/db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hidn -d hidn_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  hidn_pgdata:
