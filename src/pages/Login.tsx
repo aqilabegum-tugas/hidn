@@ -18,8 +18,10 @@ const Login = () => {
     setLoading(true);
     try {
       await authStore.login(email, password);
+      const me = authStore.get().user;
       toast({ title: "Berhasil masuk", description: "Selamat datang kembali!" });
-      navigate(from, { replace: true });
+      const isGov = me?.role === "government" || me?.role === "admin";
+      navigate(isGov ? "/dashboard" : from, { replace: true });
     } catch (err: any) {
       toast({ title: "Login gagal", description: err.message, variant: "destructive" });
     } finally {
@@ -57,10 +59,9 @@ const Login = () => {
             Belum punya akun?{" "}
             <Link to="/register" className="text-primary font-semibold hover:underline">Daftar di sini</Link>
           </p>
-          <div className="mt-6 p-4 rounded-xl bg-muted text-xs text-muted-foreground">
-            <strong className="text-foreground">Akun demo:</strong><br />
-            Email: <code>demo@hidn.id</code><br />
-            Password: <code>demo1234</code>
+          <div className="mt-6 p-4 rounded-xl bg-muted text-xs text-muted-foreground space-y-2">
+            <div><strong className="text-foreground">Demo Traveler:</strong> <code>demo@hidn.id</code> / <code>demo1234</code></div>
+            <div><strong className="text-foreground">Demo Government:</strong> <code>gov@ntt.go.id</code> / <code>demo1234</code></div>
           </div>
         </div>
       </main>

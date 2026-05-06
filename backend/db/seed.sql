@@ -1,59 +1,71 @@
 -- HIDN Seed Data
--- Demo user, kuis kepribadian (7 pertanyaan), 8 destinasi hidden gem Indonesia
+-- Demo users (traveler + government), kuis kepribadian, 8 destinasi hidden gem,
+-- mapping kategori per personality, dan contoh booking.
 
 -- =========================================
--- DEMO USER
+-- DEMO USERS
 -- =========================================
--- Password demo: "demo1234" (bcrypt hash, cost 10)
-INSERT INTO users (id, email, full_name, password_hash, personality) VALUES
-  ('11111111-1111-1111-1111-111111111111', 'demo@hidn.id', 'Demo Traveler',
-   '$2a$10$tV3TKM3F8ETW2OYn11r3deK0AFNa9p6zd7yeMfqy2d5BJN15KVUDu', 'explorer')
+-- Password "demo1234" (bcrypt hash, cost 10)  → semua user di bawah pakai password ini
+INSERT INTO users (id, email, full_name, password_hash, role, organization, phone, personality) VALUES
+  ('11111111-1111-1111-1111-111111111111', 'demo@hidn.id',     'Demo Traveler',
+   '$2a$10$tV3TKM3F8ETW2OYn11r3deK0AFNa9p6zd7yeMfqy2d5BJN15KVUDu',
+   'traveler', NULL, '+6281234567890', 'explorer'),
+  ('22222222-aaaa-aaaa-aaaa-222222222222', 'gov@ntt.go.id',    'Dinas Pariwisata NTT',
+   '$2a$10$tV3TKM3F8ETW2OYn11r3deK0AFNa9p6zd7yeMfqy2d5BJN15KVUDu',
+   'government', 'Dinas Pariwisata Provinsi NTT', '+62380123456', NULL),
+  ('33333333-bbbb-bbbb-bbbb-333333333333', 'admin@hidn.id',    'HIDN Admin',
+   '$2a$10$tV3TKM3F8ETW2OYn11r3deK0AFNa9p6zd7yeMfqy2d5BJN15KVUDu',
+   'admin', 'HIDN Platform', '+6281200000000', NULL)
 ON CONFLICT (email) DO NOTHING;
 
 -- =========================================
 -- DESTINATIONS
 -- =========================================
-INSERT INTO destinations (slug, name, region, province, category, hidden_score, sentiment_score, est_cost, duration, best_months, description, highlights, matches, image_url) VALUES
+INSERT INTO destinations (slug, name, region, province, category, hidden_score, sentiment_score, est_cost, duration, best_months, description, highlights, matches, image_url, status, capacity_per_day) VALUES
 ('pulau-kanawa', 'Pulau Kanawa', 'Labuan Bajo', 'Nusa Tenggara Timur', 'Pantai', 8, 92, 450000, '2-3 hari', 'Apr - Okt',
  'Pulau kecil di gugusan Komodo dengan air kristal jernih dan koral hidup dekat bibir pantai. Sunset di sini terasa seperti milik pribadi.',
  ARRAY['Snorkeling reef <5m', 'Sunset viewpoint bukit', 'Bungalow di tepi pantai', 'Tanpa sinyal — full disconnect'],
- ARRAY['relaxer','explorer']::personality_type[], '/images/dest/hero-beach.jpg'),
+ ARRAY['relaxer','explorer']::personality_type[], '/images/dest/hero-beach.jpg', 'approved', 30),
 
 ('desa-wae-rebo', 'Desa Wae Rebo', 'Manggarai', 'Nusa Tenggara Timur', 'Desa', 9, 95, 600000, '2 hari 1 malam', 'Apr - Sep',
  'Desa adat di ketinggian 1.100 mdpl dengan 7 rumah Mbaru Niang berbentuk kerucut. Ditempuh trekking 3-4 jam dari Denge.',
  ARRAY['Menginap di rumah adat', 'Upacara penyambutan', 'Kopi Manggarai langsung dari kebun', 'Trekking hutan tropis'],
- ARRAY['culture','explorer']::personality_type[], '/images/dest/dest-village.jpg'),
+ ARRAY['culture','explorer']::personality_type[], '/images/dest/dest-village.jpg', 'approved', 20),
 
 ('air-terjun-tumpak-sewu', 'Air Terjun Tumpak Sewu', 'Lumajang', 'Jawa Timur', 'Air Terjun', 6, 90, 250000, '1 hari', 'Mei - Sep',
  'Tirai air raksasa berbentuk setengah lingkaran. Turun ke dasar lewat tali dan sungai — bukan untuk yang takut basah.',
  ARRAY['Trek ke dasar (challenging)', 'Panorama view dari atas', 'Gua Tetes nearby', 'Foto golden hour'],
- ARRAY['adventurer','explorer']::personality_type[], '/images/dest/dest-waterfall.jpg'),
+ ARRAY['adventurer','explorer']::personality_type[], '/images/dest/dest-waterfall.jpg', 'approved', 80),
 
 ('danau-kelimutu', 'Danau Tiga Warna Kelimutu', 'Ende', 'Nusa Tenggara Timur', 'Danau', 7, 94, 500000, '2 hari', 'Jun - Sep',
  'Tiga danau kawah dengan warna berbeda dan terus berubah. Sunrise dari puncak adalah pengalaman spiritual yang dipercaya warga lokal.',
  ARRAY['Sunrise tour 04:00', '3 danau warna berbeda', 'Kampung Moni di kaki gunung', 'Tenun ikat lokal'],
- ARRAY['explorer','culture']::personality_type[], '/images/dest/dest-crater.jpg'),
+ ARRAY['explorer','culture']::personality_type[], '/images/dest/dest-crater.jpg', 'approved', 60),
 
 ('sawah-jatiluwih', 'Sawah Terasering Jatiluwih', 'Tabanan', 'Bali', 'Budaya', 5, 88, 350000, '1-2 hari', 'Sepanjang tahun',
  'Warisan UNESCO. Sistem subak ratusan tahun dengan view sawah hijau berlapis dan kabut pagi yang sinematik.',
  ARRAY['Trekking sawah 1-3 jam', 'Warung lokal dengan view', 'Pure Luhur Petali', 'Kopi & teh organik'],
- ARRAY['relaxer','culture','foodie']::personality_type[], '/images/dest/dest-rice.jpg'),
+ ARRAY['relaxer','culture','foodie']::personality_type[], '/images/dest/dest-rice.jpg', 'approved', 100),
 
 ('pulau-rote', 'Pulau Rote — Nemberala', 'Rote Ndao', 'Nusa Tenggara Timur', 'Pantai', 8, 91, 550000, '3-5 hari', 'Jun - Sep',
  'Pulau paling selatan Indonesia. Ombak kelas dunia, pantai sepi, dan budaya Sasando yang khas.',
  ARRAY['Surfing T-Land break', 'Pantai Bo''a', 'Musik Sasando', 'Sopi — minuman tradisional'],
- ARRAY['adventurer','relaxer']::personality_type[], '/images/dest/hero-beach.jpg'),
+ ARRAY['adventurer','relaxer']::personality_type[], '/images/dest/hero-beach.jpg', 'approved', 25),
 
 ('ranu-kumbolo', 'Ranu Kumbolo', 'Lumajang', 'Jawa Timur', 'Gunung', 6, 93, 400000, '2-3 hari', 'Apr - Okt',
  'Danau di ketinggian 2.400 mdpl di jalur pendakian Semeru. Refleksi bukit dan langit yang sempurna saat sunrise.',
  ARRAY['Camping tepi danau', 'Sunrise di Tanjakan Cinta', 'Bukit Oro-oro Ombo', 'Sumber air langsung minum'],
- ARRAY['adventurer','explorer']::personality_type[], '/images/dest/dest-crater.jpg'),
+ ARRAY['adventurer','explorer']::personality_type[], '/images/dest/dest-crater.jpg', 'approved', 40),
 
 ('kampung-naga', 'Kampung Naga', 'Tasikmalaya', 'Jawa Barat', 'Desa', 7, 89, 300000, '1 hari', 'Sepanjang tahun',
  'Kampung adat Sunda yang menolak listrik & teknologi modern. Hidup dalam harmoni dengan tradisi dan alam.',
  ARRAY['Rumah panggung tradisional', 'Anyaman bambu', 'Nasi liwet otentik', 'Sungai Ciwulan'],
- ARRAY['culture','foodie']::personality_type[], '/images/dest/dest-village.jpg')
+ ARRAY['culture','foodie']::personality_type[], '/images/dest/dest-village.jpg', 'approved', 35)
 ON CONFLICT (slug) DO NOTHING;
+
+-- Tag destinasi NTT supaya seolah-olah dimasukkan oleh user government NTT
+UPDATE destinations SET created_by = '22222222-aaaa-aaaa-aaaa-222222222222'
+WHERE slug IN ('pulau-kanawa','desa-wae-rebo','danau-kelimutu','pulau-rote');
 
 -- =========================================
 -- KUIS KEPRIBADIAN (7 pertanyaan)
@@ -107,6 +119,34 @@ INSERT INTO quiz_options (question_id, option_text, weights) VALUES
 ON CONFLICT DO NOTHING;
 
 -- =========================================
+-- MAPPING KATEGORI per PERSONALITY (rule-based, tanpa AI)
+-- Hasil kuis → kategori cocok → destinasi yang masuk kategori itu otomatis disarankan.
+-- =========================================
+INSERT INTO personality_categories (personality, category, weight) VALUES
+('explorer',   'Pantai',      2),
+('explorer',   'Gunung',      3),
+('explorer',   'Air Terjun',  2),
+('explorer',   'Danau',       2),
+('explorer',   'Desa',        1),
+
+('relaxer',    'Pantai',      3),
+('relaxer',    'Danau',       3),
+('relaxer',    'Budaya',      2),
+
+('culture',    'Budaya',      3),
+('culture',    'Desa',        3),
+('culture',    'Kuliner',     2),
+
+('adventurer', 'Gunung',      3),
+('adventurer', 'Air Terjun',  3),
+('adventurer', 'Pantai',      1),
+
+('foodie',     'Kuliner',     3),
+('foodie',     'Desa',        2),
+('foodie',     'Budaya',      2)
+ON CONFLICT DO NOTHING;
+
+-- =========================================
 -- DEMO ITINERARY
 -- =========================================
 INSERT INTO itineraries (id, user_id, title) VALUES
@@ -122,3 +162,13 @@ FROM destinations WHERE slug = 'danau-kelimutu'
 UNION ALL
 SELECT '22222222-2222-2222-2222-222222222222', id, 3, '07:00', 'Trekking ke Wae Rebo', 'Bawa fisik prima, jalur 3-4 jam'
 FROM destinations WHERE slug = 'desa-wae-rebo';
+
+-- =========================================
+-- DEMO BOOKING (untuk dilihat di Dashboard government)
+-- =========================================
+INSERT INTO bookings (code, user_id, destination_id, full_name, email, phone, visit_date, num_people, num_days, total_price, notes, status)
+SELECT 'HIDN-DEMO01', '11111111-1111-1111-1111-111111111111', d.id,
+       'Demo Traveler', 'demo@hidn.id', '+6281234567890',
+       CURRENT_DATE + INTERVAL '14 days', 2, 3, d.est_cost*2*3, 'Vegetarian, butuh penjemputan dari bandara', 'pending'
+FROM destinations d WHERE d.slug = 'pulau-kanawa'
+ON CONFLICT (code) DO NOTHING;

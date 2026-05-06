@@ -111,12 +111,16 @@ const DestinationDetail = () => {
             </dl>
 
             <div className="mt-6 space-y-2">
-              <button onClick={() => setOpen(true)}
+              <Link to={`/booking/${d.slug}`}
                 className="w-full h-12 rounded-full gradient-hero text-primary-foreground font-semibold inline-flex items-center justify-center gap-2 hover:shadow-elegant transition-smooth">
-                <Plus className="h-4 w-4" /> Tambahkan ke itinerary
+                Booking sekarang
+              </Link>
+              <button onClick={() => setOpen(true)}
+                className="w-full h-11 rounded-full border border-border text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-secondary transition-smooth">
+                <Plus className="h-4 w-4" /> Tambah ke itinerary
               </button>
               <button onClick={() => hidnStore.toggleSave(d)}
-                className="w-full h-12 rounded-full border border-border font-medium inline-flex items-center justify-center gap-2 hover:bg-secondary transition-smooth">
+                className="w-full h-11 rounded-full border border-border text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-secondary transition-smooth">
                 <Heart className={`h-4 w-4 ${saved ? "fill-destructive text-destructive" : ""}`} />
                 {saved ? "Tersimpan" : "Simpan"}
               </button>

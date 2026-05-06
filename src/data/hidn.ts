@@ -189,9 +189,29 @@ export function calculatePersonality(answers: number[]): Personality {
   return (Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0]) as Personality;
 }
 
+// Mapping kategori untuk setiap personality (rule-based, NO AI).
+// Mirror dari tabel `personality_categories` di database.
+export const personalityCategoryMap: Record<Personality, Partial<Record<Destination["category"], number>>> = {
+  explorer:   { Pantai: 2, Gunung: 3, "Air Terjun": 2, Danau: 2, Desa: 1 },
+  relaxer:    { Pantai: 3, Danau: 3, Budaya: 2 },
+  culture:    { Budaya: 3, Desa: 3, Kuliner: 2 },
+  adventurer: { Gunung: 3, "Air Terjun": 3, Pantai: 1 },
+  foodie:     { Kuliner: 3, Desa: 2, Budaya: 2 },
+};
+
+// Rekomendasi rule-based:
+// 1) destinasi yang `matches` mengandung personality user → prioritas tertinggi
+// 2) lalu destinasi dengan kategori sesuai mapping (bobot kategori)
+// 3) terakhir hidden_score & sentiment
 export function getRecommendations(p: Personality): Destination[] {
+  const catMap = personalityCategoryMap[p] || {};
   return [...destinations]
-    .map((d) => ({ d, score: (d.matches.includes(p) ? 100 : 30) + d.hiddenScore * 3 + d.sentimentScore * 0.3 }))
+    .map((d) => {
+      const direct = d.matches.includes(p) ? 1000 : 0;
+      const catWeight = (catMap[d.category] ?? 0) * 100;
+      return { d, score: direct + catWeight + d.hiddenScore * 5 + d.sentimentScore * 0.5 };
+    })
+    .filter((x) => x.score > 0) // hanya yang benar-benar relevan
     .sort((a, b) => b.score - a.score)
     .map((x) => x.d);
 }

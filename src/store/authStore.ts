@@ -35,8 +35,8 @@ export const authStore = {
     state = { user, loading: false };
     emit();
   },
-  async register(email: string, fullName: string, password: string) {
-    const { token, user } = await authApi.register(email, fullName, password);
+  async register(payload: { email: string; fullName: string; password: string; role?: "traveler" | "government"; organization?: string; phone?: string }) {
+    const { token, user } = await authApi.register(payload);
     tokenStore.set(token);
     state = { user, loading: false };
     emit();
