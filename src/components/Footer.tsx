@@ -25,15 +25,15 @@ export const Footer = () => (
       <div>
         <h4 className="font-display text-sm font-semibold mb-4">Kontak</h4>
         <ul className="space-y-2 text-sm text-muted-foreground">
-          <li>aqilabegum@apps.ipb.ac.id</li>
-          <li>+62 813 1453 9216</li>
+          <li>Technopreneurship for AI</li>
+          <li>Kelompok 16</li>
           <li>IPB University</li>
         </ul>
       </div>
     </div>
     <div className="border-t border-border/60">
       <p className="container mx-auto py-6 text-xs text-muted-foreground text-center">
-        © 2026 HIDN — Mengejar Nilai Mutu A · Karya Salemba Empat Juara 2026
+        © 2026 HIDN — Find Your Hidden Indonesia
       </p>
     </div>
   </footer>
